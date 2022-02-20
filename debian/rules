@@ -1,0 +1,69 @@
+#!/usr/bin/make -f
+
+include /usr/share/dpkg/pkg-info.mk
+
+export DEB_CXXFLAGS_MAINT_APPEND := $(shell dpkg-buildflags --get CPPFLAGS)
+export DEB_CFLAGS_MAINT_APPEND := $(shell dpkg-buildflags --get CPPFLAGS)
+export DEB_LDFLAGS_MAINT_APPEND := -Wl,--as-needed
+
+
+BUILD_DATE = $(shell LC_ALL=C date -u "+%B %d, %Y" -d "@$(SOURCE_DATE_EPOCH)")
+
+
+BUILD_FLAGS_FILE = build-flags.cmake
+set_build_flag = echo 'set($(1) $(2) CACHE \
+    $(if $(filter $(2),YES ON TRUE NO OFF FALSE),BOOL,STRING) \
+    $(or $(3),"") FORCE)' >> $(BUILD_FLAGS_FILE)
+verify_build_flag = @grep \
+    --include=CMakeLists.txt --include=*.cmake \
+    --exclude=$(BUILD_FLAGS_FILE) -rqs '\b$(1)\b' . || echo '$(1) flag is obsolete'
+
+$(BUILD_FLAGS_FILE) verify-build-flags:
+	$(call $(flag_action),CMAKE_SKIP_RPATH,ON,"Skip rpath")
+	$(call $(flag_action),CMAKE_USE_RELATIVE_PATHS,ON,"Use relative paths")
+	$(call $(flag_action),CMAKE_VERBOSE_MAKEFILE,ON,"Verbose build")
+	$(call $(flag_action),CMAKE_C_FLAGS,"$(CFLAGS)","C flags")
+	$(call $(flag_action),CMAKE_CXX_FLAGS,"$(CXXFLAGS)","C++ flags")
+	$(call $(flag_action),CMAKE_SKIP_BOOTSTRAP_TEST,ON,"Skip BootstrapTest")
+
+$(BUILD_FLAGS_FILE): flag_action := set_build_flag
+verify-build-flags: flag_action := verify_build_flag
+.PHONY: verify-build-flags
+
+BOOTSTRAP_FLAGS = --prefix=/usr --docdir=/share/doc/cmake-data --mandir=/share/man \
+                  --init=../$(BUILD_FLAGS_FILE) --verbose \
+				  --system-libs
+
+CROSS_CMAKE_FLAGS = -C../$(BUILD_FLAGS_FILE) \
+                    -DCMAKE_DOC_DIR=share/doc/cmake-data \
+                    -DCMAKE_MAN_DIR=share/man \
+					-DCMAKE_USE_SYSTEM_LIBRARIES=ON
+
+ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+    NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+    BOOTSTRAP_FLAGS += --parallel=$(NUMJOBS)
+else
+    NUMJOBS = 1
+endif
+
+override_dh_auto_configure: $(BUILD_FLAGS_FILE)
+	rm -rf Build && mkdir -p Build
+	cd Build && ../bootstrap $(BOOTSTRAP_FLAGS)
+
+export ELPA_NAME = cmake-mode
+
+# Instead of dh --with=elpa, we manually add dh_elpa to the sequence.  This
+# way, we can restrict the dh-elpa dependency (which transitively depends on
+# emacs) to indep builds and avoid it for the more fragile port architectures
+execute_after_dh_install-indep: debian/cmake-mode-pkg.el
+	dh_elpa
+
+debian/cmake-mode-pkg.el: debian/cmake-mode-pkg.el.in
+	sed -e 's/@VERSION@/$(DEB_VERSION_UPSTREAM)/' $< > $@
+
+override_dh_auto_test:
+
+override_dh_auto_clean:
+
+%:
+	dh $@ --builddirectory=Build

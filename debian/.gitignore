@@ -1,0 +1,8 @@
+*.substvars
+*debhelper*
+.debhelper
+cmake
+cmake-data
+cmake-mode-pkg.el
+files
+tmp
