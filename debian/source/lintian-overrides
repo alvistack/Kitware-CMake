@@ -1,0 +1,4 @@
+cmake source: no-debian-changes
+cmake source: not-binnmuable-any-depends-any
+cmake source: source-contains-cmake-cache-file
+cmake source: source-is-missing
