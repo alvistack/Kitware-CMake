@@ -19,3 +19,6 @@ out/
 .idea/
 # CLion build directories
 cmake-build-*/
+
+Build/
+build-flags.cmake
