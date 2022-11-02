@@ -1,0 +1,4 @@
+cmake-qt-gui: copyright-without-copyright-notice
+cmake-qt-gui: initial-upload-closes-no-bugs
+cmake-qt-gui: no-manual-page
+cmake-qt-gui: zero-byte-file-in-doc-directory
