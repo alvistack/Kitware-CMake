@@ -1,0 +1,4 @@
+cmake-curses-gui: copyright-without-copyright-notice
+cmake-curses-gui: initial-upload-closes-no-bugs
+cmake-curses-gui: no-manual-page
+cmake-curses-gui: zero-byte-file-in-doc-directory
