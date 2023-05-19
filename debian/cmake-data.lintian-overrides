@@ -1,0 +1,3 @@
+cmake-data: copyright-without-copyright-notice
+cmake-data: initial-upload-closes-no-bugs
+cmake-data: zero-byte-file-in-doc-directory
