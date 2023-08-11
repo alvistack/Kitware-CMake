@@ -1,0 +1,4 @@
+usr/share/aclocal/cmake.m4
+usr/share/cmake-*/
+usr/share/vim/vimfiles/indent/cmake.vim
+usr/share/vim/vimfiles/syntax/cmake.vim
