@@ -28,3 +28,6 @@
 /.vs/
 # Visual Studio build directory
 /out/
+
+Build/
+build-flags.cmake
