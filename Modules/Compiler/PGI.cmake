@@ -18,7 +18,7 @@ macro(__compiler_pgi lang)
   string(APPEND CMAKE_${lang}_FLAGS_INIT " ")
   string(APPEND CMAKE_${lang}_FLAGS_DEBUG_INIT " -g -O0")
   string(APPEND CMAKE_${lang}_FLAGS_MINSIZEREL_INIT " -O2 -s")
-  string(APPEND CMAKE_${lang}_FLAGS_RELEASE_INIT " -fast -O3")
+  string(APPEND CMAKE_${lang}_FLAGS_RELEASE_INIT " -fast -O2")
   string(APPEND CMAKE_${lang}_FLAGS_RELWITHDEBINFO_INIT " -O2 -gopt")
 
   if(CMAKE_HOST_WIN32)
