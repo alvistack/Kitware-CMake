@@ -1,0 +1,4 @@
+cmake4: copyright-without-copyright-notice
+cmake4: initial-upload-closes-no-bugs
+cmake4: no-manual-page
+cmake4: zero-byte-file-in-doc-directory
