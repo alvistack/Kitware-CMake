@@ -1,0 +1,10 @@
+*.substvars
+*debhelper*
+.debhelper
+cmake3
+cmake3-curses-gui
+cmake3-data
+cmake3-doc
+cmake3-qt-gui
+files
+tmp
