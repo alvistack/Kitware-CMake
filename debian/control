@@ -1,0 +1,83 @@
+Source: cmake
+Section: devel
+Priority: optional
+Standards-Version: 4.5.0
+Maintainer: Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+Homepage: https://github.com/Kitware/CMake/tags
+Vcs-Browser: https://github.com/alvistack/Kitware-CMake
+Vcs-Git: https://github.com/alvistack/Kitware-CMake.git
+Build-Depends:
+ debhelper,
+ debhelper-compat (= 10),
+ ccache,
+ fdupes,
+ gfortran,
+ libarchive-dev (>= 3.3.3),
+ libbz2-dev,
+ libcurl4-gnutls-dev,
+ libexpat1-dev,
+ libjsoncpp-dev,
+ libncurses5-dev,
+ librhash-dev,
+ libssl-dev,
+ libuv1-dev (>= 1.10),
+ libzstd-dev,
+ procps,
+ qtbase5-dev,
+ zlib1g-dev,
+
+Package: cmake
+Architecture: amd64
+Description: cross-platform, open-source make system
+ CMake is used to control the software compilation process using
+ simple platform and compiler independent configuration files. CMake
+ generates native makefiles and workspaces that can be used in the
+ compiler environment of your choice. CMake is quite sophisticated: it
+ is possible to support complex environments requiring system
+ configuration, pre-processor generation, code generation, and template
+ instantiation.
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+ cmake-data (= ${source:Version}),
+ procps,
+Recommends:
+ gcc,
+ make,
+Suggests:
+ ninja-build,
+
+Package: cmake-data
+Architecture: all
+Description: CMake data files (modules, templates and documentation)
+ This package provides CMake architecture independent data files (modules,
+ templates, documentation etc.). Unless you have cmake installed, you probably
+ do not need this package.
+Depends:
+ ${misc:Depends},
+
+Package: cmake-curses-gui
+Architecture: amd64
+Description: curses based user interface for CMake (ccmake)
+ This package provides the CMake curses interface. Project configuration
+ settings may be specified interactively through this GUI. Brief instructions
+ are provided at the bottom of the terminal when the program is running. The
+ main executable file for this GUI is "ccmake".
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+ cmake (= ${source:Version}),
+
+Package: cmake-qt-gui
+Architecture: amd64
+Description: Qt based user interface for CMake (cmake-gui)
+ This package provides the CMake Qt based GUI. Project configuration
+ settings may be specified interactively. Brief instructions are provided at
+ the bottom of the window when the program is running. The main executable
+ file for this GUI is "cmake-gui".
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+ cmake (= ${source:Version}),
+Provides:
+ cmake-gui,
