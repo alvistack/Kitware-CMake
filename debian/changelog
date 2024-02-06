@@ -1,0 +1,5 @@
+cmake (100:3.29.2-1) UNRELEASED; urgency=medium
+
+  * https://github.com/Kitware/CMake/releases/tag/v3.29.2
+
+ -- Wong Hoi Sing Edison <hswong3i@pantarei-design.com>  Fri, 12 Apr 2024 11:42:45 +0800
