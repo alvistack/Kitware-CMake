@@ -1,0 +1,4 @@
+usr/bin/cmake-gui
+usr/share/applications/cmake-gui.desktop
+usr/share/mime/packages/cmakecache.xml
+usr/share/icons/hicolor/*/apps/CMakeSetup.png
