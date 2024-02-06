@@ -1,0 +1,48 @@
+#!/usr/bin/make -f
+
+SHELL := /bin/bash
+
+export DEB_CFLAGS_MAINT_APPEND=$(shell dpkg-buildflags --get CPPFLAGS)
+export DEB_CXXFLAGS_MAINT_APPEND=$(shell dpkg-buildflags --get CXXFLAGS)
+export DEB_FFLAGS_MAINT_APPEND=$(shell dpkg-buildflags --get FFLAGS)
+export DEB_FCFLAGS_MAINT_APPEND=$(shell dpkg-buildflags --get FCFLAGS)
+export DEB_LDFLAGS_MAINT_APPEND=$(shell dpkg-buildflags --get LDFLAGS) -Wl,--as-needed
+
+override_dh_auto_configure:
+	set -ex && \
+		mkdir -p Build && \
+		pushd Build && \
+		../bootstrap \
+			--prefix=/usr \
+			--bindir=/bin \
+			--mandir=/share/man \
+			--system-libs \
+			--no-system-cppdap \
+			--verbose \
+			-- \
+			-DBUILD_CursesDialog:BOOL=ON \
+			-DBUILD_QtDialog:BOOL=ON \
+			-DBUILD_TESTING:BOOL=OFF \
+			-DCMAKE_CXX_COMPILER_LAUNCHER:STRING="ccache" \
+			-DCMAKE_CXX_FLAGS_RELEASE:STRING="-O2 -g -DNDEBUG" \
+			-DCMAKE_C_FLAGS:STRING="-O2 -g -DNDEBUG" \
+			-DCMAKE_Fortran_FLAGS_RELEASE:STRING="-O2 -g -DNDEBUG" \
+			-DCMAKE_INSTALL_DO_STRIP:BOOL=OFF \
+			-DCMAKE_SKIP_BOOTSTRAP_TEST:BOOL=ON \
+			-DCMAKE_SKIP_RPATH:BOOL=ON \
+			-DCMAKE_USE_RELATIVE_PATHS:BOOL=ON \
+			-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON && \
+		popd
+
+override_dh_auto_install:
+	dh_auto_install
+	rm -rf debian/tmp/usr/doc
+	fdupes -qnrps debian/tmp/usr/share/cmake
+	fdupes -qnrps debian/tmp/usr/share/cmake-*
+
+override_dh_auto_test:
+
+override_dh_auto_clean:
+
+%:
+	dh $@ --builddirectory=Build
