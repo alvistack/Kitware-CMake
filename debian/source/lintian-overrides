@@ -1,0 +1,5 @@
+cmake3 source: file-without-copyright-information
+cmake3 source: no-debian-changes
+cmake3 source: not-binnmuable-any-depends-any
+cmake3 source: source-contains-cmake3-cache-file
+cmake3 source: source-is-missing
