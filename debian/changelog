@@ -1,0 +1,5 @@
+cmake4 (100:4.3.4-1) UNRELEASED; urgency=medium
+
+  * https://github.com/Kitware/CMake/releases/tag/v4.3.4
+
+ -- Wong Hoi Sing Edison <hswong3i@pantarei-design.com>  Thu, 18 Jun 2026 11:43:16 +0800
