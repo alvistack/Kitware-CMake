@@ -1,0 +1,5 @@
+cmake4 source: file-without-copyright-information
+cmake4 source: no-debian-changes
+cmake4 source: not-binnmuable-any-depends-any
+cmake4 source: source-contains-cmake4-cache-file
+cmake4 source: source-is-missing
